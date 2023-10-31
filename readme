@@ -1,2 +1,42 @@
-C implementation for sorting algorithms 
-	- quick sort, heap sort, merge sort
+Implementation of Heap sort in Java 
+Quick sort and Merge sort in C
+
+Heap Sort:
+
+Principle: This sort works on the principle of binary heaps. It divides its input into a sorted and an unsorted region, and iteratively shrinks the unsorted region by extracting the largest/smallest element and moving that to the sorted region.
+Steps:
+Build a heap (either max heap for ascending order or min heap for descending order) from the input data.
+Swap the root node (maximum value) of the heap with the last item of the heap.
+Decrease the size of the heap by one (leave out the last element).
+Heapify the root node.
+Repeat steps 2-4 until the heap's size is 1.
+Time Complexity: Average and worst-case time complexity is O(n log n).
+
+
+Quick Sort:
+
+Principle: This sort is a divide-and-conquer algorithm that works by selecting a 'pivot' element from the array and partitioning the other elements into two sub-arrays, according to whether they are less than or greater than the pivot.
+Steps:
+Select a pivot element (often the last element or the middle one).
+Reorder the array so that all elements with values less than the pivot come before the pivot and all values greater than the pivot come after it.
+Recursively apply the above steps to the two sub-arrays.
+Time Complexity: Average time complexity is O(n log n), but the worst-case time complexity is O(n^2).
+
+
+
+Merge Sort:
+
+Principle: This is also a divide-and-conquer algorithm that divides the unsorted list into n sub-lists, each containing one element, and then repeatedly merges sub-lists to produce new sorted sub-lists until there is only one sub-list remaining.
+Steps:
+Divide the unsorted list into n sub-lists, each containing one element.
+Repeatedly merge sub-lists to produce new sorted sub-lists until there is only one sub-list remaining.
+Time Complexity: Worst-case and average time complexity is O(n log n).
+Comparison:
+
+Efficiency: In general, all three algorithms can achieve O(n log n) performance. However, quicksort tends to be faster in practice than the other two, given good pivot selection, but it can degrade to O(n^2) if a poor pivot is consistently selected.
+Memory Usage: Merge sort requires additional space equal to the size of the input array, while heap sort and quicksort can be done in-place.
+Stability: Merge sort is stable (it preserves the relative order of equal elements), while the default implementations of quick sort and heap sort are not.
+Applications:
+Heap Sort is often used in algorithms like the "Priority Queue".
+Quick Sort is good for in-memory sorting and is often faster in practice than other O(n log n) algorithms.
+Merge Sort is stable and can efficiently sort linked lists.
