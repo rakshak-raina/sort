@@ -1,59 +1,80 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-int my_mergesort(int* a,int len){
-    int step=1;
-    int *m1=(int *)malloc(len*sizeof(int));
-    if(!m1) return -1;
-    int *m2=(int *)malloc(len*sizeof(int));
-    if(!m2) return -1;
-    while (step<len) {
-        int i,s1,e1,s2,e2;
-        for(i=0;(i+step-1)<(len-1);i+=2*step){
-            s1=i;
-            e1=i+step-1;
-            s2=e1+1;
-            (i+2*step-1)<(len-1)?(e2=i+2*step-1):(e2=len-1);
-            merge_two(a,s1,e1,s2,e2,m1,m2);
+
+void merge(int arr[], int l, int m, int r) {
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 = r - m;
+
+    // Create temp arrays
+    int L[n1], R[n2];
+
+    // Copy data to temp arrays L[] and R[]
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    i = 0;
+    j = 0;
+    k = l;
+
+    // Merge the temp arrays back into arr[l..r]
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
         }
-        step=step<<1;
+        k++;
     }
-    return 0;
+
+    // Copy the remaining elements of L[], if there are any
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of R[], if there are any
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
 }
 
-int merge_two(int *a,int s1,int e1,int s2,int e2,int* m1,int* m2){
-    int len1=e1-s1+1;
-    int len2=e2-s2+1;
-    int p1=0;
-    int p2=0;
-    int p=s1;
-    memcpy(m1,a+s1,sizeof(int)*len1);
-    memcpy(m2,a+s2,sizeof(int)*len2);
-    while (p1<len1&&p2<len2) {
-        if(m1[p1]<m2[p2]){
-            a[p++]=m1[p1++];
-        }
-        else{
-            a[p++]=m2[p2++];
-        }
+void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;  // Same as (l+r)/2, but avoids overflow for large l and r
+        
+        // Sort first and second halves
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        merge(arr, l, m, r);
     }
-    while (p1<len1) {
-        a[p++]=m1[p1++];
-    }
-    while(p2<len2){
-        a[p++]=m2[p2++];
-    }
-    return 0;
 }
-int main(){
-    int a[10]={8,9,20,0,3,20,0};
-    int len=7;
-    my_mergesort(a,len);
-    
-    int i;
-    for (i=0;i<len;i++) {
-        printf("%d\t",a[i]);
+
+int main() {
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int arr_size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Given array is: \n");
+    for (int i = 0; i < arr_size; i++) {
+        printf("%d ", arr[i]);
     }
     printf("\n");
+
+    mergeSort(arr, 0, arr_size - 1);
+
+    printf("Sorted array is: \n");
+    for (int i = 0; i < arr_size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
     return 0;
 }
